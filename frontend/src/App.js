@@ -10,6 +10,7 @@ function App() {
   const [totalSupply, setTotalSupply] = useState(0);
   const [balance, setBalance] = useState(0);
   const [contract, setContract] = useState();
+  const [transaction, setTransaction] = useState([]);
 
   useEffect(() => {
     window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -17,6 +18,14 @@ function App() {
         setCurrentAccount(result[0]);
     }, [])
   });
+
+  useEffect(() => {
+    if(contract) {
+      contract.on('Transfer', function (from, to, amount) {
+        setTransaction(t => [...t, {from, to, amount}]);
+      });
+    }
+  }, [contract]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,6 +94,24 @@ function App() {
           <button>Send</button>
        </form>
      </div>
+     <table>
+       <thead>
+         <tr>
+            <th>from</th>
+            <th>to</th>
+            <th>amount</th>
+         </tr>
+       </thead>
+       <tbody>
+       {transaction.map((t, index) => {
+         return (<tr key={index}>
+           <td>{t.from}</td>
+           <td>{t.to}</td>
+           <td>{t.amount.toString()}</td>
+         </tr>);
+       })}
+      </tbody>
+     </table>
     </div>
   );
 }

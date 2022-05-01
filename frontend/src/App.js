@@ -5,6 +5,10 @@ import ERC20 from './abi/ERC20.json';
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState();
+  const [name, setName] = useState();
+  const [symbol, setSymbol] = useState();
+  const [totalSupply, setTotalSupply] = useState(0);
+
 
   useEffect(() => {
     window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -20,7 +24,13 @@ function App() {
     const erc20 = new ethers.Contract(address, ERC20, provider);
 
     const name = await erc20.name();
-    console.log(name);
+    setName(name);
+  
+    const symbol = await erc20.symbol();
+    setSymbol(symbol);
+
+    const totalSupply = await erc20.totalSupply();
+    setTotalSupply(totalSupply);
   }; 
 
   return (
@@ -33,13 +43,13 @@ function App() {
         <button>Read</button>
       </form>
       <p>
-        Name: <span>name</span>
+        Name: <span>{name}</span>
       </p>
       <p>
-        Symbol: <span>symbol</span>
+        Symbol: <span>{symbol}</span>
       </p>
       <p>
-        Total supply: <span>totalSupply</span>
+        Total supply: <span>{parseInt(totalSupply)}</span>
       </p>
     </div>
   );

@@ -94,6 +94,9 @@ function App() {
           <button>Send</button>
        </form>
      </div>
+     <h2>
+        Transactions
+     </h2>
      <table>
        <thead>
          <tr>

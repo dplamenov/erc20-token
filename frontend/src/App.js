@@ -9,7 +9,7 @@ function App() {
   const [name, setName] = useState();
   const [symbol, setSymbol] = useState();
   const [totalSupply, setTotalSupply] = useState(0);
-
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -22,6 +22,7 @@ function App() {
     e.preventDefault();
     const address = e.target.address.value;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
     const erc20 = new ethers.Contract(address, ERC20, provider);
 
     const name = await erc20.name();
@@ -32,6 +33,9 @@ function App() {
 
     const totalSupply = await erc20.totalSupply();
     setTotalSupply(totalSupply);
+
+    const balance = await erc20.balanceOf(signer.getAddress());
+    setBalance(balance);
   }; 
 
   return (
@@ -52,6 +56,9 @@ function App() {
         </p>
         <p>
           Total supply: <span>{parseInt(totalSupply)}</span>
+        </p>
+        <p>
+          My balance: <span>{parseInt(balance)}</span>
         </p>
      </div>
     </div>

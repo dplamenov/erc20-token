@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import './App.css';
 import { ethers } from 'ethers';
 import ERC20 from './abi/ERC20.json';
+import Form from 'react-bootstrap/Form'
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState();
@@ -35,22 +36,24 @@ function App() {
 
   return (
     <div className="App">
-      <h1>
-        Read data from ERC20 contract
-      </h1>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="contract address" name="address" id="address"/>
-        <button>Read</button>
-      </form>
-      <p>
-        Name: <span>{name}</span>
-      </p>
-      <p>
-        Symbol: <span>{symbol}</span>
-      </p>
-      <p>
-        Total supply: <span>{parseInt(totalSupply)}</span>
-      </p>
+     <div className="read-data">
+        <h1>
+          Read data from ERC20 contract
+        </h1>
+        <form onSubmit={handleSubmit}>
+          <input placeholder="contract address" name="address" id="address" />
+          <button>Read</button>
+        </form>
+        <p>
+          Name: <span>{name}</span>
+        </p>
+        <p>
+          Symbol: <span>{symbol}</span>
+        </p>
+        <p>
+          Total supply: <span>{parseInt(totalSupply)}</span>
+        </p>
+     </div>
     </div>
   );
 }
